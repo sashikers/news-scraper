@@ -43,6 +43,7 @@ app.get('/all', function(req, res) {
     }
     else {
       console.log('whole database');
+      console.log('scrapedData length', found.length);
       res.json(found);
     }
   });
@@ -54,11 +55,12 @@ app.get('/scrape', function(req, res) {
   request('http://www.e1.ru/news/spool/section_id-105.html', function(err, response, html) {
     var $ = cheerio.load(html);
     $('header.e1-article__header').each(function(i, element) {
-      // var title = $(element).children().children().text();
-      // var link = $(element).children().attr('href');
 
       var link = $(element).parent().attr("href");
       var title = $(element).children().text();
+      var subtitle = $(element).parent().children('p').text();
+      var timePosted = $(element).parent().children('.e1-article__tags').children('.e1-article__date-text').text();
+
 
       if (title && link) {
         db.scrapedData.insert({
@@ -74,13 +76,8 @@ app.get('/scrape', function(req, res) {
           }
         });
       }
-
-      // scrapeResults.push({
-      //   title: title,
-      //   link: link
-      // });
-
       console.log("scrapeResults", scrapeResults);
+
     });
   });
 
