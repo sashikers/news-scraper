@@ -36,6 +36,17 @@ app.get('/', function (req, res) {
 });
 
 // retrieves data from the database
+app.get('/all', function(req, res) {
+  db.scrapedData.find({}, function(error, found) {
+    if (error) {
+      console.log(error);
+    }
+    else {
+      console.log('whole database');
+      res.json(found);
+    }
+  });
+});
 
 // scrape the data from CNN
 app.get('/scrape', function(req, res) {
@@ -49,10 +60,25 @@ app.get('/scrape', function(req, res) {
       var link = $(element).parent().attr("href");
       var title = $(element).children().text();
 
-      scrapeResults.push({
-        title: title,
-        link: link
-      });
+      if (title && link) {
+        db.scrapedData.insert({
+          title: title,
+          link: link
+        },
+        function(err, inserted) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            console.log(inserted);
+          }
+        });
+      }
+
+      // scrapeResults.push({
+      //   title: title,
+      //   link: link
+      // });
 
       console.log("scrapeResults", scrapeResults);
     });
