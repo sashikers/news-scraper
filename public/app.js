@@ -44,10 +44,27 @@ $(document).on("click", ".collapsible-header", function() {
       var commentDiv =
       `
       <h4>Comments</h4>
+      <input id="nameinput" name="username">
       <textarea id="bodyinput" name="body"></textarea>
       <button data-id="` + data._id + `" id="savenote">Submit comment</button>
       `;
 
       $(".notes").append(commentDiv);
-    })
+    });
+});
+
+$(document).on("click", "#savenote", function() {
+  var thisId = $(this).attr("data-id");
+  $.ajax({
+    method: "POST",
+    url: "/articles/" + thisId,
+    data: {
+      name: $("#nameinput").val(),
+      body: $("#bodyinput").val()
+    }
+  })
+    .then(function(data) {
+      console.log(data);
+      $(".notes").empty();
+    });
 });
