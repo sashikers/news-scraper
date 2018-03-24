@@ -5,7 +5,6 @@ var logger = require("morgan");
 var path = require("path");
 var mongoose = require("mongoose");
 var request = require("request");
-
 var cheerio = require("cheerio");
 
 var db = require("./models");
@@ -34,9 +33,6 @@ mongoose.connect("mongodb://localhost/e1scrapper", {
 });
 
 // ROUTES
-app.get("/articles", function(req, res) {
-
-});
 
 // scrape the data from E1
 app.get('/scrape', function(req, res) {
@@ -71,7 +67,52 @@ app.get('/scrape', function(req, res) {
   res.send('Scrape complete');
 });
 
+// get all articles
+app.get("/articles", function(req, res) {
+	db.Article.find({})
+		.then(function(dbArticle) {
+			res.json(dbArticle);
+		})
+		.catch(function(err) {
+			res.json(err);
+		});
+});
 
+// get a single article by id
+app.get("/articles/:id", function(req, res) {
+	db.Article.findOne({ _id: req.params.id })
+		.populate("note")
+		.then(function(dbArticle) {
+			res.json(dbArticle);
+		})
+		.catch(function(err) {
+			res.json(err);
+		});
+});
+
+// update a single article by id
+app.post("/articles/:id", function(req, res) {
+	db.Note.create(req.body)
+		.then(function(dbNote) {
+			return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+		})
+		.then(function(dbArticle) {
+			res.json(dbArticle);
+		})
+		.catch(function(err) {
+			res.json(err);
+		});
+});
+
+// handlebars
+var exphbs = require('express-handlebars');
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+app.get('/', function (req, res) {
+    res.render('home');
+});
+
+// start server
 app.listen(PORT, function() {
 	console.log("=================================");
 	console.log("=================================");
