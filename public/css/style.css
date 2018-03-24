@@ -1,12 +1,11 @@
 body {
-  background-color: #cac7c0;
+  background-color: #444054;
   z
 }
 
 .bannerImage {
   /*width: 70%;*/
 }
-
 .nav-wrapper {
   background-color: #1E152A;
 }
@@ -14,6 +13,32 @@ body {
   margin-left: 15px;
 }
 
-.cardContainer {
-  /*width: 50%;*/
+a {
+  color: #2F243A;
+}
+a:link {
+  text-decoration: none;
+}
+.material-icons {
+  color: #1E152A;
+}
+.collapsible-header {
+  background-color: #BEBBBB;
+}
+.collapsible-body {
+  background-color: #BEBBBB;
+}
+#savenote {
+  background-color: #1E152A;
+  color: #BEBBBB;
+  padding: 10px;
+}
+
+h4 {
+  margin-top: 10px;
+  font-size: 2rem;
+}
+
+#nameinput:focus {
+  border-bottom: 10px black;
 }

@@ -17,9 +17,10 @@ $.getJSON("/articles", function(data) {
     `
     <li class="collection-item avatar">
       <div class="collapsible-header" data-id="` + data[i]._id + `">
+      <a href="#!" class="secondary-content"><i class="material-icons">comment</i></a>
         <span class="title"><a href="` + data[i].link + `" target="_blank">` + data[i].title + `</a></span>
 
-        <a href="#!" class="secondary-content"><i class="material-icons">comment</i></a>
+
       </div>
       <div class="collapsible-body">
         <div class="notes" data-id="` + data[i]._id + `" id="notes` + data[i]._id + `">butts</div>
@@ -44,8 +45,13 @@ $(document).on("click", ".collapsible-header", function() {
       var commentDiv =
       `
       <h4>Comments</h4>
-      <input id="nameinput" name="username">
-      <textarea id="bodyinput" name="body"></textarea>
+      <div class="input-field">
+        <input placeholder="Name" id="nameinput" name="username">
+      </div>
+      <div class="input-field">
+        <textarea id="bodyinput" class="materialize-textarea" name="body" placeholder="Comments"></textarea>
+      </div>
+
       <button data-id="` + data._id + `" id="savenote">Submit comment</button>
       `;
 
