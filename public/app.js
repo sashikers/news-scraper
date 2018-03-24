@@ -8,8 +8,9 @@ $.getJSON("/articles", function(data) {
     `
     <li class="collection-item avatar">
       <img class="circle" src="` + data[i].imageLink + `">
-      <span class="title"><a href="` + data[i].link + `">` + data[i].title + `</a></span><br>
+      <span class="title"><a href="` + data[i].link + `" target="_blank">` + data[i].title + `</a></span><br>
       <span class="subtitle">` + data[i].subtitle + `</span>
+      <a href="#!" class="secondary-content"><i class="material-icons">comment</i></a>
     </li>
     `;
 
