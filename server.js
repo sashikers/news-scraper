@@ -22,9 +22,22 @@ app.use('/static', express.static(path.join(__dirname, '/public')));
 
 // connect to mongo db
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/e1scrapper");
+// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/e1scrapper";
+//
+// // Set mongoose to leverage built in JavaScript ES6 Promises
+// // Connect to the Mongo DB
+// mongoose.connect(MONGODB_URI, {
+//   // useMongoClient: true
+// });
+mongoose.connect("mongodb://localhost/e1scrapper", {
+	useMongoClient: true
+});
 
 // ROUTES
+app.get("/articles", function(req, res) {
+
+});
+
 // scrape the data from E1
 app.get('/scrape', function(req, res) {
   request('http://www.e1.ru/news/spool/section_id-105.html', function(err, response, html) {
@@ -43,21 +56,19 @@ app.get('/scrape', function(req, res) {
 			result.link = link;
 			result.timePosted = timePosted;
 
-			console.log("result", result);
+			// console.log("result", result);
 
-			// db.Article.create(result)
-			// 	.then(function(dbArticle) {
-			// 		console.log(dbArticle);
-			// 	})
-			// 	.catch(function(err) {
-			// 		return res.json(err);
-			// 	});
+			db.Article.create(result)
+				.then(function(dbArticle) {
+					console.log(dbArticle);
+				})
+				.catch(function(err) {
+					console.log(err);
+				});
 
     });
   });
-
   res.send('Scrape complete');
-
 });
 
 
