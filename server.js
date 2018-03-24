@@ -46,12 +46,13 @@ app.get('/scrape', function(req, res) {
       var title = $(element).children().text();
       var subtitle = $(element).parent().children('p').text();
       var timePosted = $(element).parent().children('.e1-article__tags').children('.e1-article__date-text').text();
+			var imageLink = $(element).parent().children('.e1-article__photo').children('.e1-article__img').attr("src");
 
 			result.title = title;
 			result.subtitle = subtitle;
 			result.link = link;
 			result.timePosted = timePosted;
-
+			result.imageLink = imageLink;
 			// console.log("result", result);
 
 			db.Article.create(result)

@@ -20,6 +20,10 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
+  imageLink: {
+    type: String,
+    required: false
+  },
   note: {
     type: Schema.Types.ObjectId,
     ref: "Note"
