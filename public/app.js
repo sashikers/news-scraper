@@ -42,6 +42,7 @@ $(document).on("click", ".collapsible-header", function() {
   })
     .then(function(data) {
       console.log(data);
+
       var commentDiv =
       `
       <h4>Comments</h4>
@@ -53,9 +54,27 @@ $(document).on("click", ".collapsible-header", function() {
       </div>
 
       <button data-id="` + data._id + `" id="savenote">Submit comment</button>
+      <br><br>
+      <div class="container existingNotes"></div>
       `;
 
       $(".notes").append(commentDiv);
+
+      if (data.notes) {
+        console.log(data.notes);
+        for (var j = 0; j < data.notes.length; j++) {
+          console.log("j", data.notes[j]);
+          var existingCommentDiv =
+          `
+          <div class="existingCommentDiv">
+            <span class="existingCommentName">` + data.notes[j].name + `</span> says: <span>` + data.notes[j].body + `</span>
+          </div>
+          `;
+
+          $(".existingNotes").append(existingCommentDiv);
+        }
+        // $(".existingNotes").append(data.note.name + " says: " + data.note.body);
+      };
     });
 });
 
