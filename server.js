@@ -21,21 +21,27 @@ app.use('/static', express.static(path.join(__dirname, '/public')));
 
 // connect to mongo db
 mongoose.Promise = Promise;
-// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/e1scrapper";
-//
-// // Set mongoose to leverage built in JavaScript ES6 Promises
-// // Connect to the Mongo DB
-// mongoose.connect(MONGODB_URI, {
-//   // useMongoClient: true
-// });
-mongoose.connect("mongodb://localhost/e1scrapper", {
-	useMongoClient: true
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/e1scrapper";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.connect(MONGODB_URI, {
+  useMongoClient: true
 });
+// mongoose.connect("mongodb://localhost/e1scrapper", {
+// 	useMongoClient: true
+// });
+
+
+// handlebars
+var exphbs = require('express-handlebars');
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // ROUTES
 
 // scrape the data from E1
-app.get('/scrape', function(req, res) {
+app.get('/', function(req, res) {
   request('http://www.e1.ru/news/spool/section_id-105.html', function(err, response, html) {
 		var $ = cheerio.load(html);
     $('header.e1-article__header').each(function(i, element) {
@@ -65,7 +71,8 @@ app.get('/scrape', function(req, res) {
 
     });
   });
-  res.send('Scrape complete');
+	res.render('home');
+  console.log('Scrape complete');
 });
 
 // get all articles
@@ -105,13 +112,12 @@ app.post("/articles/:id", function(req, res) {
 		});
 });
 
-// handlebars
-var exphbs = require('express-handlebars');
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
-app.get('/', function (req, res) {
-    res.render('home');
-});
+
+
+//
+// app.get('/', function (req, res) {
+//     res.render('home');
+// });
 
 // start server
 app.listen(PORT, function() {

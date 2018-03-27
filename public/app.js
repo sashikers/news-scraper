@@ -67,6 +67,7 @@ $(document).on("click", ".collapsible-header", function() {
           var existingCommentDiv =
           `
           <div class="existingCommentDiv">
+            <span data-id="` + data.notes[j]._id + `" class="deleteComment"><i class="material-icons">delete</i></span>
             <span class="existingCommentName">` + data.notes[j].name + `</span> says: <span>` + data.notes[j].body + `</span>
           </div>
           `;
@@ -92,4 +93,9 @@ $(document).on("click", "#savenote", function() {
       console.log(data);
       $(".notes").empty();
     });
+});
+
+$(document).on("click", ".deleteComment", function() {
+  var commentId = $(this).attr("data-id");
+  console.log("commentId", commentId);
 });
