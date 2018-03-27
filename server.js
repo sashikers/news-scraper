@@ -28,6 +28,7 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/e1scrapper";
 mongoose.connect(MONGODB_URI, {
   useMongoClient: true
 });
+console.log("MONGODB_URI", MONGODB_URI);
 // mongoose.connect("mongodb://localhost/e1scrapper", {
 // 	useMongoClient: true
 // });
@@ -42,6 +43,7 @@ app.set('view engine', 'handlebars');
 
 // scrape the data from E1
 app.get('/', function(req, res) {
+	setTimeout(function() {}, 6000);
   request('http://www.e1.ru/news/spool/section_id-105.html', function(err, response, html) {
 		var $ = cheerio.load(html);
     $('header.e1-article__header').each(function(i, element) {
