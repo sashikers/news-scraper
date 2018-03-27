@@ -9,7 +9,7 @@ var cheerio = require("cheerio");
 
 var db = require("./models");
 
-var PORT = 3009;
+var PORT = process.env.PORT || 3009;
 
 // initialize express
 var app = express();
@@ -43,7 +43,7 @@ app.set('view engine', 'handlebars');
 
 // scrape the data from E1
 app.get('/', function(req, res) {
-	setTimeout(function() {}, 6000);
+	// setTimeout(function() {}, 6000);
   request('http://www.e1.ru/news/spool/section_id-105.html', function(err, response, html) {
 		var $ = cheerio.load(html);
     $('header.e1-article__header').each(function(i, element) {
